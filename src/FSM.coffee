@@ -58,6 +58,9 @@ define [
         states
       }
 
+      @on 'transition', (transition) -> console.log JSON.stringify transition
+      @handle true
+
 
     handle: (inputType) ->
       inputType = Boolean inputType
