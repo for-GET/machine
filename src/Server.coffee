@@ -12,6 +12,8 @@ define [
 
   #
   class Server
+    _ClientRequest: ClientRequest
+    _ServerResponse: ServerResponse
     stack: undefined
 
 
@@ -52,8 +54,8 @@ define [
 
 
     _patchReqRes: (req, res, port) ->
-      ClientRequest.patchNative req
-      ServerResponse.patchNative res
+      @_ClientRequest.patchNative req
+      @_ServerResponse.patchNative res
       req.app = res.app = @
       req.res = res
       res.req = req
