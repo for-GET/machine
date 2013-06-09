@@ -51,8 +51,6 @@ define [
 
 
     constructor: (req, res) ->
-      res._headers ?= {} # Pass by reference
-
       @operation = {
         _req: req
         _res: res
