@@ -13,27 +13,7 @@ This software is highly volatile; the v4 diagram has the same status.
 
 ## Usage
 
-```coffee
-Server = require './src/Server'
-Resource = require './src/Resource'
-
-class MyResource extends Resource
-  content_types_provided: () ->
-    {
-      'text/html': () -> '123'
-    }
-
-app = new Server()
-app.use '/', MyResource.middleware()
-app.listen 8000
-```
-
-#### Shell
-
-```bash
-# Shortcut to start a server from a configuration file
-hyperrest-machine "./server_config_sample"
-```
+For the time being, have a look at [HyperREST Server](https://github.com/andreineculau/hyperrest-server).
 
 
 ## License

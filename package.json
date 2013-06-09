@@ -1,14 +1,8 @@
 {
   "name": "hyperrest-machine",
   "description": "HyperREST machine implementing the HTTP decision diagram as a express/connect middleware",
-  "preferGlobal": false,
-  "private": true,
   "version": "0.0.1",
   "author": "Andrei Neculau <@andreineculau>",
-  "contributors": [],
-  "users": {
-    "andreineculau": true
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/andreineculau/hyperrest-machine.git"
@@ -35,7 +29,7 @@
     "know-your-http-well": "0.0.1"
   },
   "devDependencies": {
-    "coffee-script": "~1.6.2",
+    "coffee-script": "~1.6.3",
     "testem": "~0.2.70",
     "mocha": "~1.8.1",
     "chai": "~1.5.0",
@@ -44,9 +38,5 @@
   "scripts": {
     "prepublish": "make prepublish",
     "test": "make test"
-  },
-  "bin": {
-    "hyperrest-machine": "bin/server.js"
-  },
-  "main": "index"
+  }
 }

@@ -1,4 +1,4 @@
-COFFEE := $(wildcard *.coffee bin/*.coffee src/*.coffee)
+COFFEE := $(wildcard *.coffee src/*.coffee)
 JS := $(patsubst src%, lib%, $(COFFEE:.coffee=.js))
 
 .PHONY: all clean prepublish test testem

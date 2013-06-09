@@ -10,7 +10,6 @@ define [
   './FSMResource/process'
   './FSMResource/response'
   './FSMResource/error'
-  './helpers.coffee'
 ], (
   genericCallbacks
   systemBlock
@@ -22,7 +21,6 @@ define [
   processBlock
   responseBlock
   errorBlock
-  helpers
 ) ->
   "use strict"
 
@@ -50,28 +48,4 @@ define [
         @::[callback] = fun
 
 
-    constructor: (req, res) ->
-      @operation = {
-        _req: req
-        _res: res
-        method: helpers.reqToMethod req
-        uri: helpers.reqToURI req
-        headers: req.headers
-        representation: req.body
-        h: {}
-        response:
-          statusCode: undefined
-          headers: res._headers
-          representation: undefined
-          h: {}
-          chosen:
-            contentType: undefined
-            language: undefined
-            charset: undefined
-            encoding: undefined
-      }
-
-
-    @middleware: (Resource) ->
-      middleware = require './middleware'
-      middleware @, Resource
+    constructor: (@operation) ->
