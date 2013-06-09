@@ -41,7 +41,8 @@
     "growl": "~1.7.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/testem ci"
+    "prepublish": "make prepublish",
+    "test": "make test"
   },
   "bin": {
     "server": "bin/server.js"
