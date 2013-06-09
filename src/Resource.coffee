@@ -147,6 +147,8 @@ define [
       true
     has_multiple_choices: () -> # :bin
       false
+    need_camelcased_response_headers: () -> # :bin
+      false
 
 
     # Process
