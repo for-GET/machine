@@ -58,7 +58,8 @@ define [
         states
       }
 
-      @on 'transition', (transition) -> console.log JSON.stringify transition
+      @on 'transition', (transition) ->
+
       @handle true
 
 
