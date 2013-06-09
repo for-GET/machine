@@ -1,6 +1,6 @@
-# hyperrest-server
+# hyperrest-machine
 
-[HyperREST](http://hyperrest.com) Server is a NodeJS implementation
+[HyperREST](http://hyperrest.com) Machine is a NodeJS implementation
 of the [HTTP decision diagram v4](https://github.com/andreineculau/http-decision-diagram/tree/master/v4).
 
 In short, [I'm eating my own dog food](http://en.wikipedia.org/wiki/Eating_your_own_dog_food).
@@ -32,7 +32,7 @@ app.listen 8000
 
 ```bash
 # Shortcut to start a server from a configuration file
-server ./bin/server.config.sample.js
+hyperrest-machine "./server_config_sample"
 ```
 
 

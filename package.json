@@ -1,6 +1,6 @@
 {
-  "name": "hyperrest-server",
-  "description": "HyperREST server implementing the HTTP decision diagram as a express/connect middleware",
+  "name": "hyperrest-machine",
+  "description": "HyperREST machine implementing the HTTP decision diagram as a express/connect middleware",
   "preferGlobal": false,
   "private": true,
   "version": "0.0.1",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreineculau/hyperrest-server.git"
+    "url": "git://github.com/andreineculau/hyperrest-machine.git"
   },
   "keywords": [
     "node",
@@ -46,7 +46,7 @@
     "test": "make test"
   },
   "bin": {
-    "server": "bin/server.js"
+    "hyperrest-machine": "bin/server.js"
   },
   "main": "index"
 }
