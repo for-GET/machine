@@ -26,15 +26,16 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "~0.10.7"
+    "node": "~0.10"
   },
   "dependencies": {
-    "coffee-script": "~1.6.2",
     "amdefine": "~0.0.4",
     "machina": "~0.3.4",
-    "otw": "git://github.com/andreineculau/otw.git"
+    "otw": "git://github.com/andreineculau/otw.git",
+    "know-your-http-well": "0.0.1"
   },
   "devDependencies": {
+    "coffee-script": "~1.6.2",
     "testem": "~0.2.70",
     "mocha": "~1.8.1",
     "chai": "~1.5.0",
