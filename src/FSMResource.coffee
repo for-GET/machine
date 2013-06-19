@@ -49,3 +49,4 @@ define [
 
 
     constructor: (@operation) ->
+      undefined
