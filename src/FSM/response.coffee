@@ -18,10 +18,10 @@ define [
       _onEnter: () -> @handle @resource.is_create_done()
       false:    () ->
         @operation.response.statusCode or= status.ACCEPTED
-        @transition 'last'
+        'last'
       true:     () ->
         @operation.response.statusCode or= status.CREATED
-        @transition 'last'
+        'last'
 
     # Process
     block_process_response:
@@ -29,10 +29,10 @@ define [
 
     is_process_done:
       _onEnter: () -> @handle @resource.is_process_done()
-      true:     () -> @transition 'to_content'
+      true:     'to_content'
       false:    () ->
         @operation.response.statusCode or= status.ACCEPTED
-        @transition 'last'
+        'last'
 
     # Others
     block_response:
@@ -40,23 +40,23 @@ define [
 
     see_other:
       _onEnter: () -> @handle @resource.see_other()
-      false:    () -> @transition 'has_multiple_choices'
+      false:    'has_multiple_choices'
       true:     () ->
         @operation.response.statusCode or= status.SEE_OTHER
-        @transition 'last'
+        'last'
 
     has_multiple_choices:
       _onEnter: () -> @handle @resource.has_multiple_choices()
       true:     () ->
         @operation.response.statusCode or= status.MULTIPLE_CHOICES
-        @transition 'last'
-      false:    () -> @transition 'to_content'
+        'last'
+      false:    'to_content'
 
     to_content:
       _onEnter: () -> @handle @resource.to_content()
       false:    () ->
         @operation.response.statusCode or= status.NO_CONTENT
-        @transition 'last'
+        'last'
       true:     () ->
         # FIXME
         # @operation.h.vary = @resource.vary_header()
@@ -66,5 +66,5 @@ define [
         # @operation.h['cache-control'] = @resource.cache_control_header()
         # @operation.h.date = @resource.date_header()
         @operation.response.statusCode or= status.OK
-        @transition 'last'
+        'last'
   }

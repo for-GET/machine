@@ -44,7 +44,7 @@ define [
 
       states =
         init:
-          true: () -> @transition 'block_system'
+          '*': 'block_system'
 
       _.extend states,
         systemStates,
@@ -88,7 +88,7 @@ define [
             }
             result
 
-      @handle true
+      @handle()
 
 
     handle: (inputType) ->

@@ -16,47 +16,47 @@ define [
     # HEAD/GET
     is_method_head_get:
       _onEnter: () -> @handle @resource.is_method_head_get()
-      true:     () -> @transition 'block_response'
-      false:    () -> @transition 'is_method_delete'
+      true:     'block_response'
+      false:    'is_method_delete'
 
     # DELETE
     is_method_delete:
       _onEnter: () -> @handle @resource.is_method_delete()
-      true:     () -> @transition 'process_delete'
-      false:    () -> @transition 'is_method_put'
+      true:     'process_delete'
+      false:    'is_method_put'
 
     process_delete:
       _onEnter: () -> @handle @resource.process_delete()
-      true:     () -> @transition 'block_response'
+      true:     'block_response'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        @transition 'block_error'
+        'block_error'
 
     # PUT
     is_method_put:
       _onEnter: () -> @handle @resource.is_method_put()
-      true:     () -> @transition 'process_put'
-      false:    () -> @transition 'is_method_process'
+      true:     'process_put'
+      false:    'is_method_process'
 
     process_put:
       _onEnter: () -> @handle @resource.process_put()
-      true:     () -> @transition 'block_response'
+      true:     'block_response'
       false:    () ->
         @operation.response.statusCode or= status.CONFLICT
-        @transition 'block_error'
+        'block_error'
 
     # Others
     is_method_process:
       _onEnter: () -> @handle @resource.is_method_process()
-      true:     () -> @transition 'process'
+      true:     'process'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        @transition 'block_error'
+        'block_error'
 
     process:
       _onEnter: () -> @handle @resource.process()
-      true:     () -> @transition 'block_response'
+      true:     'block_response'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        @transition 'block_error'
+        'block_error'
   }

@@ -16,35 +16,35 @@ define [
     # PUT
     create_is_method_put:
       _onEnter: () -> @handle @resource.create_is_method_put()
-      true:     () -> @transition 'create_put'
-      false:    () -> @transition 'is_method_create'
+      true:     'create_put'
+      false:    'is_method_create'
 
     create_put:
       _onEnter: () -> @handle @resource.create_put()
-      true:     () -> @transition 'create_is_location_set'
+      true:     'create_is_location_set'
       false:    () ->
         @operation.response.statusCode or= status.CONFLICT
-        @transition 'block_error'
+        'block_error'
 
     # Others
     is_method_create:
       _onEnter: () -> @handle @resource.is_method_create()
-      true:     () -> @transition 'create_path'
+      true:     'create_path'
       false:    () ->
         @operation.response.statusCode or= status.NOT_FOUND
-        @transition 'block_error'
+        'block_error'
 
     create_path:
       _onEnter: () -> @handle @resource.create_path()
-      true:     () -> @transition 'create'
+      true:     'create'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        @transition 'block_error'
+        'block_error'
 
     create:
       _onEnter: () -> @handle @resource.create()
-      true:     () -> @transition 'block_response_create'
+      true:     'block_response_create'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        @transition 'block_error'
+        'block_error'
   }

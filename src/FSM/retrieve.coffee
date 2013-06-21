@@ -11,8 +11,8 @@ define [
 
     missing:
       _onEnter: () -> @handle @resource.missing()
-      true:     () -> @transition 'block_missing_precondition'
-      false:    () -> @transition 'block_precondition'
+      true:     'block_missing_precondition'
+      false:    'block_precondition'
 
     # Moved
     block_retrieve_moved:
@@ -20,27 +20,27 @@ define [
 
     moved:
       _onEnter: () -> @handle @resource.moved()
-      false:    () -> @transition 'block_create'
-      true:     () -> @transition 'moved_permanently'
+      false:    'block_create'
+      true:     'moved_permanently'
 
     moved_permanently:
       _onEnter: () -> @handle @resource.moved_permanently()
-      false:    () -> @transition 'moved_temporarily'
+      false:    'moved_temporarily'
       true:     () ->
         @operation.response.statusCode or= status.MOVED_PERMANENTLY
-        @transition 'block_error'
+        'block_error'
 
     moved_temporarily:
       _onEnter: () -> @handle @resource.moved_temporarily()
-      false:    () -> @transition 'moved_is_method_create'
+      false:    'moved_is_method_create'
       true:     () ->
         @operation.response.statusCode or= status.TEMPORARY_REDIRECT
-        @transition 'block_error'
+        'block_error'
 
     moved_is_method_create:
       _onEnter: () -> @handle @resource.moved_is_method_create()
-      true:     () -> @transition 'block_create'
+      true:     'block_create'
       false:    () ->
         @operation.response.statusCode or= status.GONE
-        @transition 'block_error'
+        'block_error'
   }

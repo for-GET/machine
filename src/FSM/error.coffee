@@ -11,16 +11,16 @@ define [
 
     error_has_accept:
       _onEnter: () -> @handle @resource.error_has_accept()
-      true:     () -> @transition 'error_accept_matches'
-      false:    () -> @transition 'last'
+      true:     'error_accept_matches'
+      false:    'last'
 
     error_accept_matches:
       _onEnter: () -> @handle @resource.error_accept_matches()
-      true:     () -> @transition 'error_to_content'
-      false:    () -> @transition 'last'
+      true:     'error_to_content'
+      false:    'last'
 
     error_to_content:
       _onEnter: () ->
         @handle @resource.error_to_content()
-        @transition 'last'
+        'last'
   }
