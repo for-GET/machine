@@ -6,4 +6,6 @@ define [
 
   {
     # Retrieve
+    moved_is_method_create: () -> # : in
+      @is_method_create()
   }

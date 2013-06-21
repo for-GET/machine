@@ -14,6 +14,12 @@ define [
 ) ->
   "use strict"
 
+  accept_header = (contentTypes) ->
+    contentTypes = contentTypes.map (contentType) -> new ContentTypeHeader contentType
+    acceptHeader = new AcceptHeader()
+    acceptHeader.tokens = contentTypes.map (contentTypeHeader) -> contentTypeHeader.token
+    acceptHeader
+
   # Request
   {
     is_method_allowed: () -> # : in
@@ -36,14 +42,16 @@ define [
       response.representation = headersRepresentation
       true
     accept_patch_header: () -> # : in
-      contentTypes = Object.keys @patch_content_types_accepted()
-      contentTypes = contentTypes.map (contentType) -> new ContentTypeHeader contentType
-      acceptHeader = new AcceptHeader()
-      acceptHeader.tokens = contentTypes.map (contentTypeHeader) -> contentTypeHeader.token
-      acceptHeader
+      accept_header Object.keys @patch_content_types_accepted()
+    accept_post_header: () -> # : in
+      accept_header Object.keys @post_content_types_accepted()
+    accept_put_header: () -> # : in
+      accept_header Object.keys @put_content_types_accepted()
     process_options: () -> # : in
       @operation.response.h.allow = @allow_header()
       @operation.response.h['accept-patch'] = @accept_patch_header()
+      @operation.response.h['accept-post'] = @accept_post_header()
+      @operation.response.h['accept-put'] = @accept_put_header()
     has_expect: () -> # : in
       expect = @operation.h.expect
       expect instanceof ExpectHeader

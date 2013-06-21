@@ -11,8 +11,15 @@ define [
   # Process
   {
     block_process:
-      _onEnter: () -> @transition 'is_method_delete'
+      _onEnter: () -> @transition 'is_method_head_get'
 
+    # HEAD/GET
+    is_method_head_get:
+      _onEnter: () -> @handle @resource.is_method_head_get()
+      true:     () -> @transition 'block_response'
+      false:    () -> @transition 'is_method_delete'
+
+    # DELETE
     is_method_delete:
       _onEnter: () -> @handle @resource.is_method_delete()
       true:     () -> @transition 'process_delete'
@@ -25,6 +32,7 @@ define [
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
         @transition 'block_error'
 
+    # PUT
     is_method_put:
       _onEnter: () -> @handle @resource.is_method_put()
       true:     () -> @transition 'process_put'
@@ -37,23 +45,18 @@ define [
         @operation.response.statusCode or= status.CONFLICT
         @transition 'block_error'
 
+    # Others
     is_method_process:
       _onEnter: () -> @handle @resource.is_method_process()
       true:     () -> @transition 'process'
-      false:    () -> @transition 'block_response'
-
-    process:
-      _onEnter: () -> @handle @resource.process()
-      true:     () -> @transition 'is_location_set'
       false:    () ->
         @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
         @transition 'block_error'
 
-    is_location_set:
-      _onEnter: () -> @handle @resource.is_location_set()
+    process:
+      _onEnter: () -> @handle @resource.process()
       true:     () -> @transition 'block_response'
       false:    () ->
-        @operation.response.statusCode or= status.SEE_OTHER
-        @transition 'last'
-
+        @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
+        @transition 'block_error'
   }

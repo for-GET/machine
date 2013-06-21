@@ -17,7 +17,7 @@ define [
       _onEnter: () -> @handle @resource.is_method_implemented()
       true:     () -> @transition 'is_authorized'
       false:    () ->
-        @operation.response.allow or= @resource.allow_header()
+        @operation.response.h.allow or= @resource.allow_header()
         @operation.response.statusCode or= status.METHOD_NOT_ALLOWED
         @transition 'block_error'
 
@@ -66,8 +66,10 @@ define [
 
     is_content_type_accepted:
       _onEnter: () -> @handle @resource.is_content_type_accepted()
-      false:    () -> @transition 'process_request'
-      true:     () ->
+      true:     () -> @transition 'process_request'
+      false:    () ->
+        method = @operation.method.toLowerCase()
+        @operation.response.h["accept-#{method}"] or= @resource["accept_#{method}_header"]()
         @operation.response.statusCode or= status.UNSUPPORTED_MEDIA_TYPE
         @transition 'block_error'
 
@@ -80,13 +82,13 @@ define [
 
     is_forbidden:
       _onEnter: () -> @handle @resource.is_forbidden()
-      false:    () -> @transition 'is_request_ok'
+      false:    () -> @transition 'is_request_block_ok'
       true:     () ->
         @operation.response.statusCode or= status.FORBIDDEN
         @transition 'block_error'
 
-    is_request_ok:
-      _onEnter: () -> @handle @resource.is_request_ok()
+    is_request_block_ok:
+      _onEnter: () -> @handle @resource.is_request_block_ok()
       true:     () -> @transition 'block_accept'
       false:    () ->
         @operation.response.statusCode or= status.BAD_REQUEST

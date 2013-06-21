@@ -21,8 +21,6 @@ define [
       if @operation.headers['content-type']
         @operation.h.contentType = new ContentTypeHeader @operation.headers['content-type']
       true
-    is_service_available: () -> # :bin
-      true
     is_method_implemented: () -> # : in
       @method() in @implemented_methods()
     are_content_headers_implemented: () -> # : in

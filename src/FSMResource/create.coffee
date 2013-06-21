@@ -6,13 +6,9 @@ define [
 
   # Create
   {
-    existed_is_method_create: () -> # : in
-      @is_method_create()
     create_is_method_put: () -> # : in
       @is_method_put()
     create_path: () -> # : in
       return false  unless @path()
       true
-    create_is_location_set: () -> # : in
-      @is_location_set()
   }

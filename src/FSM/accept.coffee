@@ -21,7 +21,7 @@ define [
     accept_matches:
       _onEnter: () -> @handle @resource.accept_matches()
       true:     () -> @transition 'has_accept_language'
-      false:    () -> @transition 'is_accept_ok'
+      false:    () -> @transition 'ignore_accept_block_mismatches'
 
     has_accept_language:
       _onEnter: () -> @handle @resource.has_accept_language()
@@ -31,7 +31,7 @@ define [
     accept_language_matches:
       _onEnter: () -> @handle @resource.accept_language_matches()
       true:     () -> @transition 'has_accept_charset'
-      false:    () -> @transition 'is_accept_ok'
+      false:    () -> @transition 'ignore_accept_block_mismatches'
 
     has_accept_charset:
       _onEnter: () -> @handle @resource.has_accept_charset()
@@ -41,7 +41,7 @@ define [
     accept_charset_matches:
       _onEnter: () -> @handle @resource.accept_charset_matches()
       true:     () -> @transition 'has_accept_encoding'
-      false:    () -> @transition 'is_accept_ok'
+      false:    () -> @transition 'ignore_accept_block_mismatches'
 
     has_accept_encoding:
       _onEnter: () -> @handle @resource.has_accept_encoding()
@@ -51,10 +51,10 @@ define [
     accept_encoding_matches:
       _onEnter: () -> @handle @resource.accept_encoding_matches()
       true:     () -> @transition 'block_retrieve'
-      false:    () -> @transition 'is_accept_ok'
+      false:    () -> @transition 'ignore_accept_block_mismatches'
 
-    is_accept_ok:
-      _onEnter: () -> @handle @resource.is_accept_ok()
+    ignore_accept_block_mismatches:
+      _onEnter: () -> @handle @resource.ignore_accept_block_mismatches()
       true:     () -> @transition 'block_retrieve'
       false:    () ->
         @operation.response.statusCode or= status.NOT_ACCEPTABLE

@@ -6,6 +6,10 @@ define [
 
   # Response
   {
+    see_other: () -> # : in
+      return false  unless @canonical_path() isnt @operation.uri
+      true
+
     to_content: () -> # : in
       # FIXME
 

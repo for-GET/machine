@@ -115,9 +115,16 @@ define [
       # FIXME
 
 
-    # Misc
+    # System
+    is_service_available: () -> # :bin
+      true
     is_uri_too_long: () -> # :bin
       false
+    is_system_block_ok: () -> # :bin
+      true
+
+
+    # Request
     is_content_too_large: () -> # :bin
       false
     trace_sensitive_headers: () -> # :var
@@ -133,29 +140,35 @@ define [
       true
     is_forbidden: () -> # :bin
       false
-    exists: () -> # :bin
+    is_request_block_ok: () -> # :bin
       true
-    existed: () -> # :bin
+
+
+    # Accept
+    ignore_accept_block_mismatches: () -> # :bin
+      false
+
+
+    # Retrieve
+    missing: () -> # :bin
+      false
+    moved: () -> # :bin
       false
     moved_permanently: () -> # :bin
       false
     moved_temporarily: () -> # :bin
       false
-    path: () -> # :var
-      undefined
-    is_process_done: () -> # :bin
-      true
-    has_multiple_choices: () -> # :bin
-      false
-    need_camelcased_response_headers: () -> # :bin
-      false
 
 
-    # Process
+    # Create
     create_put: () -> # :bin
       false
+    path: () -> # :var
+      undefined
     create: () -> # :bin
       false
+
+    # Process
     process_delete: () -> # :bin
       false
     process_put: () -> # :bin
@@ -164,13 +177,17 @@ define [
       false
 
 
-    # Override block
-    is_request_ok: () -> # :bin
+    # Response
+    is_create_done: () -> # :bin
       true
-    is_accept_ok: () -> # :bin
+    is_process_done: () -> # :bin
       true
-    is_precondition_ok: () -> # :bin
-      true
+    canonical_path: () -> # :var
+      @operation.uri
+    has_multiple_choices: () -> # :bin
+      false
+    need_camelcased_response_headers: () -> # :bin
+      false
 
 
     # Override everything

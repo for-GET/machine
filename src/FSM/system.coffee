@@ -55,9 +55,16 @@ define [
 
     are_expect_extensions_implemented:
       _onEnter: () -> @handle @resource.are_expect_extensions_implemented()
-      true:     () -> @transition 'block_request'
+      true:     () -> @transition 'is_system_block_ok'
       false:    () ->
         @operation.response.statusCode or= status.EXPECTATION_FAILED
+        @transition 'block_error'
+
+    is_system_block_ok:
+      _onEnter: () -> @handle @resource.is_system_block_ok()
+      true:     () -> @transition 'block_request'
+      false:    () ->
+        @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
         @transition 'block_error'
 
     last:

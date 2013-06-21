@@ -38,6 +38,10 @@ define [
       @context = @resource.context
       @operation = @resource.operation
 
+      @operation.log = _.extend (@operation.log or {}),
+        callbacks: []
+        transitions: []
+
       states =
         init:
           true: () -> @transition 'block_system'
@@ -58,7 +62,31 @@ define [
         states
       }
 
-      @on 'transition', (transition) ->
+      # Keep track of transitions
+      @on 'transition', (transition) =>
+        transition = {
+          from: transition.fromState
+          to: transition.toState
+        }
+        if false # FIXME check for debug
+          transition.operation = _.omit @operation, (prop) -> prop[0] is '_'
+        @operation.log.transitions.push transition
+
+      # Keep track of callback results
+      for k, v of @resource
+        continue  unless _.isFunction v
+        do () =>
+          callback = k
+          fun = v
+          @resource[callback] = () =>
+            state = @state
+            result = fun.apply @resource, arguments
+            @operation.log.callbacks.push {
+              state
+              callback
+              result
+            }
+            result
 
       @handle true
 
