@@ -182,6 +182,8 @@ define [
       true
     is_process_done: () -> # :bin
       true
+    redirect_to_canonical: () -> # :bin
+      false
     canonical_path: () -> # :var
       @operation.uri
     has_multiple_choices: () -> # :bin

@@ -7,7 +7,7 @@ define [
   # Response
   {
     see_other: () -> # : in
-      return false  unless @canonical_path() isnt @operation.uri
+      return false  unless @redirect_to_canonical() and @canonical_path() isnt @operation.uri
       true
 
     to_content: () -> # : in
