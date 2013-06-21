@@ -1,4 +1,4 @@
-# HyperREST Machine
+# HyperREST Machine [![Build Status][2]][1]
 
 [HyperREST](http://hyperrest.com) Machine is a NodeJS implementation
 of the [HTTP decision diagram v4](https://github.com/andreineculau/http-decision-diagram/tree/master/v4).
@@ -19,3 +19,7 @@ For the time being, have a look at [HyperREST Server](https://github.com/andrein
 ## License
 
 [Apache 2.0](LICENSE)
+
+
+  [1]: https://travis-ci.org/andreineculau/hyperrest-machine
+  [2]: https://travis-ci.org/andreineculau/hyperrest-machine.png
