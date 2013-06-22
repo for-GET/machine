@@ -11,8 +11,15 @@ define [
 
     missing:
       _onEnter: () -> @handle @resource.missing()
+      false:    'found'
       true:     'block_missing_precondition'
+
+    found:
+      _onEnter: () -> @handle @resource.found()
       false:    'block_precondition'
+      true:     () ->
+        @operation.response.statusCode or= status.FOUND
+        'block_error'
 
     # Moved
     block_retrieve_moved:
