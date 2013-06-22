@@ -180,12 +180,12 @@ define [
     # Response
     is_create_done: () -> # :bin
       true
+    create_see_other: () -> # :bin
+      @see_other()
     is_process_done: () -> # :bin
       true
-    redirect_to_canonical: () -> # :bin
+    see_other: () -> # :bin
       false
-    canonical_path: () -> # :var
-      @operation.uri
     has_multiple_choices: () -> # :bin
       false
     need_camelcased_response_headers: () -> # :bin

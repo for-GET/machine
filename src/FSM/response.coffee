@@ -16,11 +16,20 @@ define [
 
     is_create_done:
       _onEnter: () -> @handle @resource.is_create_done()
+      true:     'create_see_other'
       false:    () ->
         @operation.response.statusCode or= status.ACCEPTED
         'last'
-      true:     () ->
+
+    create_see_other:
+      _onEnter: () -> @handle @resource.create_see_other()
+      false:    () ->
+        # FIXME set Location
         @operation.response.statusCode or= status.CREATED
+        'last'
+      true:     () ->
+        # FIXME set Location
+        @operation.response.statusCode or= status.SEE_OTHER
         'last'
 
     # Process
@@ -42,6 +51,7 @@ define [
       _onEnter: () -> @handle @resource.see_other()
       false:    'has_multiple_choices'
       true:     () ->
+        # FIXME set Location
         @operation.response.statusCode or= status.SEE_OTHER
         'last'
 
