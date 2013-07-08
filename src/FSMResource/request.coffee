@@ -32,7 +32,7 @@ define [
       # FIXME
     process_trace: () -> # : in
       response = @transaction.response
-      headers = @transaction.headers
+      headers = @transaction.request.headers
       sensitiveHeaders= @trace_sensitive_headers()
       headersRepresentation = []
       for header, value of headers
@@ -53,12 +53,12 @@ define [
       @transaction.response.h['accept-post'] = @accept_post_header()
       @transaction.response.h['accept-put'] = @accept_put_header()
     has_expect: () -> # : in
-      expect = @transaction.h.expect
+      expect = @transaction.request.h.expect
       expect instanceof ExpectHeader
     expects_continue: () -> # : in
-      @has_expect() and @transaction.h.expect.matchesToken '100-continue'
+      @has_expect() and @transaction.request.h.expect.matchesToken '100-continue'
     content_exists: () -> # : in
-      @transaction.headers['content-length'] or @transaction.representation?.length
+      @transaction.request.headers['content-length'] or @transaction.representation?.length
     content_types_accepted: () -> # : in
       method = @method().toLowerCase()
       fun = "#{method}_content_types_accepted"
@@ -66,5 +66,5 @@ define [
       @[fun]()
     is_content_type_accepted: () -> # : in
       accepted = new AcceptHeader Object.keys(@content_types_accepted()).join ','
-      accepted.matchesToken @transaction.headers['content-type']
+      accepted.matchesToken @transaction.request.headers['content-type']
   }

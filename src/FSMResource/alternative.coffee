@@ -34,14 +34,14 @@ define [
       return {}  unless type?
       @["default_#{type}_content_type_provided"]()
     alternative_has_accept: () -> # : in
-      accept = @transaction.h.accept
+      accept = @transaction.request.h.accept
       unless accept instanceof AcceptHeader or accept.toString() is '*/*'
         @transaction.response.chosen.contentType = @default_alternative_content_type_provided()
         return false
       true
     alternative_accept_matches: () -> # : in
       provided = @alternative_content_types_provided()
-      tokenHandler = @transaction.h.accept.chooseTokenHandler provided
+      tokenHandler = @transaction.request.h.accept.chooseTokenHandler provided
       return false  unless tokenHandler?.token
       @transaction.response.chosen.contentType = tokenHandler
       true

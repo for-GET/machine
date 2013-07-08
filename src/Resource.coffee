@@ -16,9 +16,9 @@ define [
   class Resource extends FSMResource
     # Methods
     method: () -> # :var
-      overridenMethod = @transaction._req.headers['x-http-method-override']
+      overridenMethod = @transaction.request.headers['x-http-method-override']
       return overridenMethod.toUpperCase()  if overridenMethod
-      @transaction.method
+      @transaction.request.method
     safe_methods: () -> # :var
       [
         'HEAD'

@@ -69,12 +69,12 @@ define [
         'last'
       true:     () ->
         # FIXME
-        # @transaction.h.vary = @resource.vary_header()
-        # @transaction.h.etag = @resource.etag_header()
-        # @transaction.h['last-modified'] = @resource.last_modified_header()
-        # @transaction.h.expires = @resource.expires_header()
-        # @transaction.h['cache-control'] = @resource.cache_control_header()
-        # @transaction.h.date = @resource.date_header()
+        # @transaction.request.h.vary = @resource.vary_header()
+        # @transaction.request.h.etag = @resource.etag_header()
+        # @transaction.request.h['last-modified'] = @resource.last_modified_header()
+        # @transaction.request.h.expires = @resource.expires_header()
+        # @transaction.request.h['cache-control'] = @resource.cache_control_header()
+        # @transaction.request.h.date = @resource.date_header()
         @transaction.response.status or= statusWell.OK
         'last'
   }

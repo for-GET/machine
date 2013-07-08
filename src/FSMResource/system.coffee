@@ -13,23 +13,23 @@ define [
   # System
   {
     start: () -> # : in
-      if @transaction.headers.accept
-        @transaction.h.accept = new AcceptHeader @transaction.headers.accept
-      if @transaction.headers['content-type']
-        @transaction.h.contentType = new ContentTypeHeader @transaction.headers['content-type']
+      if @transaction.request.headers.accept
+        @transaction.request.h.accept = new AcceptHeader @transaction.request.headers.accept
+      if @transaction.request.headers['content-type']
+        @transaction.request.h.contentType = new ContentTypeHeader @transaction.request.headers['content-type']
       true
     is_method_implemented: () -> # : in
       @method() in @implemented_methods()
     are_content_headers_implemented: () -> # : in
       implemented_content_headers = @implemented_content_headers()
-      for header, value of @transaction.headers
+      for header, value of @transaction.request.headers
         continue  unless /^content\-/.test header
         return false  unless header in implemented_content_headers
       true
     are_expect_extensions_implemented: () -> # : in
       implemented_expect_extensions = @implemented_expect_extensions()
       for extension in implemented_expect_extensions
-        return false  unless @transaction.h.expect.matchesToken extension
+        return false  unless @transaction.request.h.expect.matchesToken extension
       true
     camelcase_response_headers: () -> # : in
       @transaction.response.headers = camelize @transaction.response.headers
