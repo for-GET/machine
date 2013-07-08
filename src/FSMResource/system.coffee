@@ -2,16 +2,13 @@ define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   'otw/like/HTTP/AcceptHeader'
   'otw/like/HTTP/ContentTypeHeader'
+  'camelize-http-headers'
 ], (
   AcceptHeader
   ContentTypeHeader
+  camelize
 ) ->
   "use strict"
-
-  camelcase = (str) ->
-    str = str[0].toUpperCase() + str.substr(1).toLowerCase()
-    str = str.replace /-([a-z])/g, (matches) -> matches.toUpperCase()
-    str
 
   # System
   {
@@ -35,13 +32,7 @@ define [
         return false  unless @operation.h.expect.matchesToken extension
       true
     camelcase_response_headers: () -> # : in
-      camelcaseExceptions =
-        'www-authenticate': 'WWW-Authenticate'
-        'content-md5': 'Content-MD5'
-      map = {}
-      for header in @operation.response.headers
-        map[header] = camelcaseExceptions[header] or camelcase header
-      map
+      @operation.response.headers = camelize @operation.response.headers
     last: () -> # : in
       res = @operation._res
       res.sendDate = false # Disable automation
