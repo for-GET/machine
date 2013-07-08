@@ -6,7 +6,7 @@ define [
 ) ->
   "use strict"
 
-  status = httpWell.statusPhrasesToCodes
+  statusWell = httpWell.statusPhrasesToCodes
 
   # Precondition
   {
@@ -18,8 +18,8 @@ define [
       _onEnter: () -> @handle @resource.missing_has_precondition()
       true:     'block_retrieve_moved'
       false:    () ->
-        @operation.response.statusCode or= status.PRECONDITION_FAILED
-        'block_error'
+        @operation.response.status or= statusWell.PRECONDITION_FAILED
+        'block_response_alternative'
 
     # Process
     block_precondition:
@@ -34,8 +34,8 @@ define [
       _onEnter: () -> @handle @resource.if_match_matches()
       true:     'has_if_unmodified_since'
       false:    () ->
-        @operation.response.statusCode or= status.PRECONDITION_FAILED
-        'block_error'
+        @operation.response.status or= statusWell.PRECONDITION_FAILED
+        'block_response_alternative'
 
     has_if_unmodified_since:
       _onEnter: () -> @handle @resource.has_if_unmodified_since()
@@ -46,8 +46,8 @@ define [
       _onEnter: () -> @handle @resource.if_unmodified_since_matches()
       false:    'has_if_unmodified_since'
       true:     () ->
-        @operation.response.statusCode or= status.PRECONDITION_FAILED
-        'block_error'
+        @operation.response.status or= statusWell.PRECONDITION_FAILED
+        'block_response_alternative'
 
     has_if_none_match:
       _onEnter: () -> @handle @resource.has_if_none_match()
@@ -72,9 +72,9 @@ define [
     is_precondition_safe:
       _onEnter: () -> @handle @resource.is_precondition_safe()
       true:     () ->
-        @operation.response.statusCode or= status.NOT_MODIFIED
+        @operation.response.status or= statusWell.NOT_MODIFIED
         'last'
       false:    () ->
-        @operation.response.statusCode or= status.PRECONDITION_FAILED
-        'block_error'
+        @operation.response.status or= statusWell.PRECONDITION_FAILED
+        'block_response_alternative'
   }

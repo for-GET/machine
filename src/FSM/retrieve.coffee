@@ -18,8 +18,8 @@ define [
       _onEnter: () -> @handle @resource.found()
       false:    'block_precondition'
       true:     () ->
-        @operation.response.statusCode or= status.FOUND
-        'block_error'
+        @operation.response.status or= statusWell.FOUND
+        'block_response_alternative'
 
     # Moved
     block_retrieve_moved:
@@ -34,20 +34,20 @@ define [
       _onEnter: () -> @handle @resource.moved_permanently()
       false:    'moved_temporarily'
       true:     () ->
-        @operation.response.statusCode or= status.MOVED_PERMANENTLY
-        'block_error'
+        @operation.response.status or= statusWell.MOVED_PERMANENTLY
+        'block_response_alternative'
 
     moved_temporarily:
       _onEnter: () -> @handle @resource.moved_temporarily()
       false:    'moved_is_method_create'
       true:     () ->
-        @operation.response.statusCode or= status.TEMPORARY_REDIRECT
-        'block_error'
+        @operation.response.status or= statusWell.TEMPORARY_REDIRECT
+        'block_response_alternative'
 
     moved_is_method_create:
       _onEnter: () -> @handle @resource.moved_is_method_create()
       true:     'block_create'
       false:    () ->
-        @operation.response.statusCode or= status.GONE
-        'block_error'
+        @operation.response.status or= statusWell.GONE
+        'block_response_alternative'
   }

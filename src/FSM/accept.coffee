@@ -6,7 +6,7 @@ define [
 ) ->
   "use strict"
 
-  status = httpWell.statusPhrasesToCodes
+  statusWell = httpWell.statusPhrasesToCodes
 
   # Accept
   {
@@ -57,6 +57,6 @@ define [
       _onEnter: () -> @handle @resource.ignore_accept_block_mismatches()
       true:     'block_retrieve'
       false:    () ->
-        @operation.response.statusCode or= status.NOT_ACCEPTABLE
-        'block_error'
+        @operation.response.status or= statusWell.NOT_ACCEPTABLE
+        'block_response_alternative'
   }

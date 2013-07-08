@@ -6,7 +6,7 @@ define [
 ) ->
   "use strict"
 
-  status = httpWell.statusPhrasesToCodes
+  statusWell = httpWell.statusPhrasesToCodes
 
   # Response
   {
@@ -18,18 +18,18 @@ define [
       _onEnter: () -> @handle @resource.is_create_done()
       true:     'create_see_other'
       false:    () ->
-        @operation.response.statusCode or= status.ACCEPTED
+        @operation.response.status or= statusWell.ACCEPTED
         'last'
 
     create_see_other:
       _onEnter: () -> @handle @resource.create_see_other()
       false:    () ->
         # FIXME set Location
-        @operation.response.statusCode or= status.CREATED
+        @operation.response.status or= statusWell.CREATED
         'last'
       true:     () ->
         # FIXME set Location
-        @operation.response.statusCode or= status.SEE_OTHER
+        @operation.response.status or= statusWell.SEE_OTHER
         'last'
 
     # Process
@@ -40,7 +40,7 @@ define [
       _onEnter: () -> @handle @resource.is_process_done()
       true:     'to_content'
       false:    () ->
-        @operation.response.statusCode or= status.ACCEPTED
+        @operation.response.status or= statusWell.ACCEPTED
         'last'
 
     # Others
@@ -52,20 +52,20 @@ define [
       false:    'has_multiple_choices'
       true:     () ->
         # FIXME set Location
-        @operation.response.statusCode or= status.SEE_OTHER
+        @operation.response.status or= statusWell.SEE_OTHER
         'last'
 
     has_multiple_choices:
       _onEnter: () -> @handle @resource.has_multiple_choices()
       true:     () ->
-        @operation.response.statusCode or= status.MULTIPLE_CHOICES
+        @operation.response.status or= statusWell.MULTIPLE_CHOICES
         'last'
       false:    'to_content'
 
     to_content:
       _onEnter: () -> @handle @resource.to_content()
       false:    () ->
-        @operation.response.statusCode or= status.NO_CONTENT
+        @operation.response.status or= statusWell.NO_CONTENT
         'last'
       true:     () ->
         # FIXME
@@ -75,6 +75,6 @@ define [
         # @operation.h.expires = @resource.expires_header()
         # @operation.h['cache-control'] = @resource.cache_control_header()
         # @operation.h.date = @resource.date_header()
-        @operation.response.statusCode or= status.OK
+        @operation.response.status or= statusWell.OK
         'last'
   }

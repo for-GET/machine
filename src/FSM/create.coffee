@@ -6,7 +6,7 @@ define [
 ) ->
   "use strict"
 
-  status = httpWell.statusPhrasesToCodes
+  statusWell = httpWell.statusPhrasesToCodes
 
   # Create
   {
@@ -23,28 +23,28 @@ define [
       _onEnter: () -> @handle @resource.create_put()
       true:     'create_is_location_set'
       false:    () ->
-        @operation.response.statusCode or= status.CONFLICT
-        'block_error'
+        @operation.response.status or= statusWell.CONFLICT
+        'block_response_alternative'
 
     # Others
     is_method_create:
       _onEnter: () -> @handle @resource.is_method_create()
       true:     'create_path'
       false:    () ->
-        @operation.response.statusCode or= status.NOT_FOUND
-        'block_error'
+        @operation.response.status or= statusWell.NOT_FOUND
+        'block_response_alternative'
 
     create_path:
       _onEnter: () -> @handle @resource.create_path()
       true:     'create'
       false:    () ->
-        @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        'block_error'
+        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        'block_response_alternative'
 
     create:
       _onEnter: () -> @handle @resource.create()
       true:     'block_response_create'
       false:    () ->
-        @operation.response.statusCode or= status.INTERNAL_SERVER_ERROR
-        'block_error'
+        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        'block_response_alternative'
   }
