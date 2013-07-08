@@ -31,7 +31,8 @@
     "amdefine": "~0.0.4",
     "machina": "~0.3.4",
     "otw": "git://github.com/andreineculau/otw.git",
-    "know-your-http-well": "0.0.1"
+    "know-your-http-well": "~0.0.1",
+    "camelize-http-headers": "~0.0.1"
   },
   "devDependencies": {
     "chai": "~1.7.0",
