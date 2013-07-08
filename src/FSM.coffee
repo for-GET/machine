@@ -10,7 +10,7 @@ define [
   './FSM/create'
   './FSM/process'
   './FSM/response'
-  './FSM/error'
+  './FSM/alternative'
 ], (
   machina
   _
@@ -22,7 +22,7 @@ define [
   createStates
   processStates
   responseStates
-  errorStates
+  alternativeStates
 ) ->
   "use strict"
 
@@ -55,7 +55,7 @@ define [
         createStates,
         processStates,
         responseStates,
-        errorStates
+        alternativeStates
 
       super {
         initialState: 'init'

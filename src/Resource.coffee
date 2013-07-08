@@ -1,12 +1,16 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   'querystring'
+  'know-your-http-well'
   './FSMResource'
 ], (
   QueryString
+  httpWell
   FSMResource
 ) ->
   "use strict"
+
+  statusWell = httpWell.statusPhrasesToCodes
 
   #
   class Resource extends FSMResource
@@ -75,6 +79,24 @@ define [
       {}
     default_content_type_provided: () -> # :var
       []
+    choice_content_types_provided: () -> # :var
+      {
+        'text/uri-list': () ->
+          # FIXME
+      }
+    default_choice_content_type_provided: () -> # :var
+      ['text/uri-list', @choice_content_types_provided()['text/uri-list']]
+    error_content_types_provided: () -> # :var
+      {
+        'application/api-problem+json': () ->
+          # FIXME
+      }
+    default_error_content_type_provided: () -> # :var
+      ['application/api-problem+json', @error_content_types_provided()['application/api-problem+json']]
+    options_content_types_provided: () -> # :var
+      {}
+    default_options_content_type_provided: () -> # :var
+      []
     languages_provided: () -> # :var
       {}
     default_language_provided: () -> # :var
@@ -91,10 +113,6 @@ define [
       }
     default_encoding_provided: () -> # :var
       ['identity', @encodings_provided().identity]
-    error_content_types_provided: () -> # :var
-      {}
-    error_default_content_type_provided: () -> # :var
-      []
 
 
     # Meta

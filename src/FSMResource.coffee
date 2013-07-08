@@ -9,7 +9,7 @@ define [
   './FSMResource/create'
   './FSMResource/process'
   './FSMResource/response'
-  './FSMResource/error'
+  './FSMResource/alternative'
 ], (
   genericCallbacks
   systemBlock
@@ -20,7 +20,7 @@ define [
   createBlock
   processBlock
   responseBlock
-  errorBlock
+  alternativeBlock
 ) ->
   "use strict"
 
@@ -34,7 +34,7 @@ define [
     createBlock
     processBlock
     responseBlock
-    errorBlock
+    alternativeBlock
   ]
 
   #
