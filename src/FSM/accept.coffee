@@ -57,6 +57,6 @@ define [
       _onEnter: () -> @handle @resource.ignore_accept_block_mismatches()
       true:     'block_retrieve'
       false:    () ->
-        @operation.response.status or= statusWell.NOT_ACCEPTABLE
+        @transaction.response.status or= statusWell.NOT_ACCEPTABLE
         'block_response_alternative'
   }

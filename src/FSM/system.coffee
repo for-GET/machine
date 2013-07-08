@@ -22,49 +22,49 @@ define [
       _onEnter: () -> @handle @resource.is_service_available()
       true:     'is_uri_too_long'
       false:    () ->
-        @operation.response.status or= statusWell.SERVICE_NOT_AVAILABLE
+        @transaction.response.status or= statusWell.SERVICE_NOT_AVAILABLE
         'block_response_alternative'
 
     is_uri_too_long:
       _onEnter: () -> @handle @resource.is_uri_too_long()
       false:    'is_method_implemented'
       true:     () ->
-        @operation.response.status or= statusWell.URI_TOO_LONG
+        @transaction.response.status or= statusWell.URI_TOO_LONG
         'block_response_alternative'
 
     is_method_implemented:
       _onEnter: () -> @handle @resource.is_method_implemented()
       true:     'are_content_headers_implemented'
       false:    () ->
-        @operation.response.status or= statusWell.NOT_IMPLEMENTED
+        @transaction.response.status or= statusWell.NOT_IMPLEMENTED
         'block_response_alternative'
 
     are_content_headers_implemented:
       _onEnter: () -> @handle @resource.are_content_headers_implemented()
       true:     'is_functionality_implemented'
       false:    () ->
-        @operation.response.status or= statusWell.NOT_IMPLEMENTED
+        @transaction.response.status or= statusWell.NOT_IMPLEMENTED
         'block_response_alternative'
 
     is_functionality_implemented:
       _onEnter: () -> @handle @resource.is_functionality_implemented()
       true:     'are_expect_extensions_implemented'
       false:    () ->
-        @operation.response.status or= statusWell.NOT_IMPLEMENTED
+        @transaction.response.status or= statusWell.NOT_IMPLEMENTED
         'block_response_alternative'
 
     are_expect_extensions_implemented:
       _onEnter: () -> @handle @resource.are_expect_extensions_implemented()
       true:     'is_system_block_ok'
       false:    () ->
-        @operation.response.status or= statusWell.EXPECTATION_FAILED
+        @transaction.response.status or= statusWell.EXPECTATION_FAILED
         'block_response_alternative'
 
     is_system_block_ok:
       _onEnter: () -> @handle @resource.is_system_block_ok()
       true:     'block_request'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
 
     last:

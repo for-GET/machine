@@ -29,7 +29,7 @@ define [
       _onEnter: () -> @handle @resource.process_delete()
       true:     'block_response'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
 
     # PUT
@@ -42,7 +42,7 @@ define [
       _onEnter: () -> @handle @resource.process_put()
       true:     'block_response'
       false:    () ->
-        @operation.response.status or= statusWell.CONFLICT
+        @transaction.response.status or= statusWell.CONFLICT
         'block_response_alternative'
 
     # Others
@@ -50,13 +50,13 @@ define [
       _onEnter: () -> @handle @resource.is_method_process()
       true:     'process'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
 
     process:
       _onEnter: () -> @handle @resource.process()
       true:     'block_response'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
   }

@@ -16,9 +16,9 @@ define [
   class Resource extends FSMResource
     # Methods
     method: () -> # :var
-      overridenMethod = @operation._req.headers['x-http-method-override']
+      overridenMethod = @transaction._req.headers['x-http-method-override']
       return overridenMethod.toUpperCase()  if overridenMethod
-      @operation.method
+      @transaction.method
     safe_methods: () -> # :var
       [
         'HEAD'
@@ -65,7 +65,7 @@ define [
     post_content_types_accepted: () -> # :var
       {
         'application/x-www-form-urlencoded': () ->
-          @context.entity = QueryString.parse @operation.representation
+          @context.entity = QueryString.parse @transaction.representation
           true
       }
     patch_content_types_accepted: () -> # :var

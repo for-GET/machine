@@ -30,15 +30,15 @@ define [
 
   #
   class FSM extends machinaFsm
+    transaction: undefined
     context: undefined
-    operation: undefined
     resource: undefined
 
     constructor: (@resource) ->
+      @transaction = @resource.transaction
       @context = @resource.context
-      @operation = @resource.operation
 
-      @operation.log = _.extend (@operation.log or {}),
+      @transaction.log = _.extend (@transaction.log or {}),
         callbacks: []
         transitions: []
 
@@ -69,8 +69,8 @@ define [
           to: transition.toState
         }
         if false # FIXME check for debug
-          transition.operation = _.omit @operation, (prop) -> prop[0] is '_'
-        @operation.log.transitions.push transition
+          transition.transaction = _.omit @transaction, (prop) -> prop[0] is '_'
+        @transaction.log.transitions.push transition
 
       # Keep track of callback results
       for k, v of @resource
@@ -81,7 +81,7 @@ define [
           @resource[callback] = () =>
             state = @state
             result = fun.apply @resource, arguments
-            @operation.log.callbacks.push {
+            @transaction.log.callbacks.push {
               state
               callback
               result

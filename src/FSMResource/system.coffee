@@ -13,36 +13,36 @@ define [
   # System
   {
     start: () -> # : in
-      if @operation.headers.accept
-        @operation.h.accept = new AcceptHeader @operation.headers.accept
-      if @operation.headers['content-type']
-        @operation.h.contentType = new ContentTypeHeader @operation.headers['content-type']
+      if @transaction.headers.accept
+        @transaction.h.accept = new AcceptHeader @transaction.headers.accept
+      if @transaction.headers['content-type']
+        @transaction.h.contentType = new ContentTypeHeader @transaction.headers['content-type']
       true
     is_method_implemented: () -> # : in
       @method() in @implemented_methods()
     are_content_headers_implemented: () -> # : in
       implemented_content_headers = @implemented_content_headers()
-      for header, value of @operation.headers
+      for header, value of @transaction.headers
         continue  unless /^content\-/.test header
         return false  unless header in implemented_content_headers
       true
     are_expect_extensions_implemented: () -> # : in
       implemented_expect_extensions = @implemented_expect_extensions()
       for extension in implemented_expect_extensions
-        return false  unless @operation.h.expect.matchesToken extension
+        return false  unless @transaction.h.expect.matchesToken extension
       true
     camelcase_response_headers: () -> # : in
-      @operation.response.headers = camelize @operation.response.headers
+      @transaction.response.headers = camelize @transaction.response.headers
     last: () -> # : in
-      res = @operation._res
+      res = @transaction._res
       res.sendDate = false # Disable automation
-      res.statusCode = @operation.response.statusCode
-      @operation.response.headers[header] ?= h.toString()  for header, h of @operation.response.h
-      res.setHeader header, value  for header, value of @operation.response.headers
+      res.statusCode = @transaction.response.status
+      @transaction.response.headers[header] ?= h.toString()  for header, h of @transaction.response.h
+      res.setHeader header, value  for header, value of @transaction.response.headers
       @camelcase_response_headers()  if @need_camelcased_response_headers()
-      if @operation.response.representation
-        res.write @operation.response.representation, @operation.response.chosen.charset[0]
+      if @transaction.response.representation
+        res.write @transaction.response.representation, @transaction.response.chosen.charset[0]
       @override()
     finish: () -> # : in
-      @operation._res.end()
+      @transaction._res.end()
   }

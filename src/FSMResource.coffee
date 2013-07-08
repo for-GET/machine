@@ -39,8 +39,8 @@ define [
 
   #
   class FSMResource
+    transaction: undefined
     context: undefined
-    operation: undefined
 
 
     for callbackBlock in callbackBlocks
@@ -48,5 +48,5 @@ define [
         @::[callback] = fun
 
 
-    constructor: (@operation) ->
+    constructor: (@transaction) ->
       undefined

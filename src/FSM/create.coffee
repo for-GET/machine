@@ -23,7 +23,7 @@ define [
       _onEnter: () -> @handle @resource.create_put()
       true:     'create_is_location_set'
       false:    () ->
-        @operation.response.status or= statusWell.CONFLICT
+        @transaction.response.status or= statusWell.CONFLICT
         'block_response_alternative'
 
     # Others
@@ -31,20 +31,20 @@ define [
       _onEnter: () -> @handle @resource.is_method_create()
       true:     'create_path'
       false:    () ->
-        @operation.response.status or= statusWell.NOT_FOUND
+        @transaction.response.status or= statusWell.NOT_FOUND
         'block_response_alternative'
 
     create_path:
       _onEnter: () -> @handle @resource.create_path()
       true:     'create'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
 
     create:
       _onEnter: () -> @handle @resource.create()
       true:     'block_response_create'
       false:    () ->
-        @operation.response.status or= statusWell.INTERNAL_SERVER_ERROR
+        @transaction.response.status or= statusWell.INTERNAL_SERVER_ERROR
         'block_response_alternative'
   }
