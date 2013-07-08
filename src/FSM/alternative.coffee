@@ -28,5 +28,5 @@ define [
     alternative_to_content:
       _onEnter: () ->
         @handle @resource.to_content()
-        'last'
+        @transition 'last'
   }
