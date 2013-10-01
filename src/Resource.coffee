@@ -1,10 +1,12 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   'querystring'
+  'lodash'
   'know-your-http-well'
   './FSMResource'
 ], (
   QueryString
+  _
   httpWell
   FSMResource
 ) ->
@@ -14,6 +16,44 @@ define [
 
   #
   class Resource extends FSMResource
+    constructor: (@transaction) ->
+      _.assign @transaction,
+        request:
+          version: undefined
+          method: undefined
+          scheme: undefined
+          host:
+            source: undefined
+            hostname: undefined
+            port: undefined
+          target:
+            source: undefined
+            path: undefined
+            query: undefined
+          headers: {}
+          representation: undefined
+          h: {}
+        response:
+          status: undefined
+          headers: {}
+          representation: undefined
+          h: {}
+          chosen:
+            contentType: undefined
+            language: undefined
+            charset: undefined
+            encoding: undefined
+        error:
+          describedBy: undefined
+          supportId: undefined
+          title: undefined
+          detail: undefined
+        log:
+          transitions: undefined
+          callbacks: undefined
+      super
+
+
     # Methods
     method: () -> # :var
       overridenMethod = @transaction.request.headers['x-http-method-override']

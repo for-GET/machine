@@ -1,7 +1,7 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   'machina'
-  'otw/like/lodash'
+  'lodash'
   './FSM/system'
   './FSM/request'
   './FSM/accept'
@@ -38,15 +38,11 @@ define [
       @transaction = @resource.transaction
       @context = @resource.context
 
-      @transaction.log = _.extend (@transaction.log or {}),
-        callbacks: []
-        transitions: []
-
       states =
         init:
           '*': 'block_system'
 
-      _.extend states,
+      _.assign states,
         systemStates,
         requestStates,
         acceptStates,
@@ -68,8 +64,7 @@ define [
           from: transition.fromState
           to: transition.toState
         }
-        if false # FIXME check for debug
-          transition.transaction = _.omit @transaction, (prop) -> prop[0] is '_'
+        transition.transaction = _.omit @transaction, (prop) -> prop[0] is '_'
         @transaction.log.transitions.push transition
 
       # Keep track of callback results
