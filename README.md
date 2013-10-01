@@ -1,9 +1,9 @@
-# HyperREST Machine [![Build Status][2]][1]
+# HTTPDD Machine [![Build Status][2]][1]
 
-[HyperREST](http://hyperrest.com) Machine is a NodeJS implementation
-of the [HTTP decision diagram v4](https://github.com/andreineculau/http-decision-diagram/tree/master/v4).
+HTTPDD Machine is a reference (NodeJS) implementation
+of the state machine described by [HTTP decision diagram v4](https://github.com/for-GET/http-decision-diagram/tree/master/v4).
 
-In short, [I'm eating my own dog food](http://en.wikipedia.org/wiki/Eating_your_own_dog_food).
+In short, this is a reference implementation and [I'm eating my own dog food](http://en.wikipedia.org/wiki/Eating_your_own_dog_food).
 
 
 ## Status
@@ -13,7 +13,7 @@ This software is highly volatile; the v4 diagram has the same status.
 
 ## Usage
 
-For the time being, have a look at [HyperREST Server](https://github.com/andreineculau/hyperrest-server).
+For the time being, have a look at [HTTPDD Server](https://github.com/for-GET/server).
 
 
 ## License
@@ -21,5 +21,5 @@ For the time being, have a look at [HyperREST Server](https://github.com/andrein
 [Apache 2.0](LICENSE)
 
 
-  [1]: https://travis-ci.org/andreineculau/hyperrest-machine
-  [2]: https://travis-ci.org/andreineculau/hyperrest-machine.png
+  [1]: https://travis-ci.org/for-GET/machine
+  [2]: https://travis-ci.org/for-GET/machine.png

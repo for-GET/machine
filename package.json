@@ -1,6 +1,6 @@
 {
-  "name": "hyperrest-machine",
-  "description": "HyperREST machine implementing the HTTP decision diagram as a express/connect middleware",
+  "name": "httpdd-machine",
+  "description": "NodeJS implementation of the HTTP decision diagram v4 (as a express/connect middleware)",
   "keywords": [
     "node",
     "nodejs",
@@ -15,7 +15,7 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreineculau/hyperrest-machine.git"
+    "url": "git://github.com/for-GET/machine.git"
   },
   "licenses": [
     {
@@ -28,19 +28,19 @@
     "test": "make test"
   },
   "dependencies": {
-    "amdefine": "~0.0.4",
+    "amdefine": "~0.0.8",
     "machina": "~0.3.4",
     "otw": "git://github.com/andreineculau/otw.git",
-    "know-your-http-well": "~0.0.1",
+    "know-your-http-well": "~0.1.2",
     "camelize-http-headers": "~0.0.1"
   },
   "devDependencies": {
-    "chai": "~1.7.0",
+    "chai": "~1.7.2",
     "coffee-script": "~1.6.3",
     "coffeelint": "~0.5.6",
     "growl": "~1.7.0",
     "lodash": "~1.3.1",
-    "mocha": "~1.11.0",
-    "testem": "~0.2.98"
+    "mocha": "~1.12.0",
+    "testem": "~0.3.18"
   }
 }
