@@ -22,7 +22,7 @@ define [
       return 'options'  if @transaction.method is 'OPTIONS'
       return 'choice'  if status? and statusWell.MULTIPLE_CHOICES
       undefined
-    is_alternative_response: () -> # : in
+    is_response_alternative: () -> # : in
       type = @alternative_type()
       type?
     alternative_content_types_provided: () -> # : in
@@ -35,7 +35,7 @@ define [
       @["default_#{type}_content_type_provided"]()
     alternative_has_accept: () -> # : in
       accept = @transaction.request.h.accept
-      unless accept instanceof AcceptHeader or accept.toString() is '*/*'
+      unless accept? and (accept instanceof AcceptHeader or accept.toString() is '*/*')
         @transaction.response.chosen.contentType = @default_alternative_content_type_provided()
         return false
       true

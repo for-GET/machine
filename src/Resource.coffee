@@ -210,13 +210,13 @@ define [
     # Retrieve
     missing: () -> # :bin
       false
-    found: () -> # :bin
-      false
     moved: () -> # :bin
       false
     moved_permanently: () -> # :bin
       false
     moved_temporarily: () -> # :bin
+      false
+    gone_permanently: () -> # :bin
       false
 
 
