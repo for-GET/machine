@@ -17,7 +17,7 @@ define [
   #
   class Resource extends FSMResource
     constructor: (@transaction) ->
-      _.assign @transaction,
+      _.assign @transaction, {
         request:
           version: undefined
           method: undefined
@@ -49,8 +49,9 @@ define [
           title: undefined
           detail: undefined
         log:
-          transitions: undefined
-          callbacks: undefined
+          transitions: []
+          callbacks: []
+      }
       super
 
 

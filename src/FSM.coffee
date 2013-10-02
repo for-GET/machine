@@ -1,28 +1,14 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
-  'machina'
   'lodash'
-  './FSM/system'
-  './FSM/request'
-  './FSM/accept'
-  './FSM/retrieve'
-  './FSM/precondition'
-  './FSM/create'
-  './FSM/process'
-  './FSM/response'
-  './FSM/alternative'
+  'machina'
+  './httpdd.fsm.json'
+  './FSM/transitions'
 ], (
-  machina
   _
-  systemStates
-  requestStates
-  acceptStates
-  retrieveStates
-  preconditionStates
-  createStates
-  processStates
-  responseStates
-  alternativeStates
+  machina
+  httpdd
+  transitions
 ) ->
   "use strict"
 
@@ -34,29 +20,76 @@ define [
     context: undefined
     resource: undefined
 
+    @_makeConfig: () ->
+      states = {}
+      initialState = _.find(httpdd.statements, {__type: 'assignment', name: 'Initial'}).value
+      finalState = _.find(httpdd.statements, {__type: 'assignment', name: 'Final'}).value
+      blockStates = _.where(httpdd.statements, {__type: 'declaration', value: 'block'})[0].names
+      statusCodeStates = _.where(httpdd.statements, {__type: 'declaration', value: 'status_code'})[0].names
+
+      for transition in _.where httpdd.statements, {__type: 'transition'}
+        for state in transition.states
+          states[state] ?= {}
+          for message in transition.messages
+            transitionFun = transitions["#{state}:#{message}"]
+            message = '*'  if message is 'anything'
+
+            if state in blockStates
+              states[state]._onEnter = do () ->
+                _transition = transition
+                () ->
+                  @transition _transition.next_state
+            else if state in statusCodeStates
+              statusCode = /^\d{3}/.exec(state)[0]
+              states[state]._onEnter = () ->
+                @handle()
+              transitionFun ?= do () ->
+                _statusCode = statusCode
+                () ->
+                  @transaction.response.status = _statusCode
+              states[state][message] = do () ->
+                _transition = transition
+                _transitionFun = transitionFun
+                () ->
+                  nextState = _transitionFun.call @
+                  return nextState  if states[nextState]
+                  _transition.next_state
+            else
+              transitionFun ?= () ->
+              states[state]._onEnter = do () ->
+                _state = state
+                () ->
+                  @handle @resource[_state]()
+
+              states[state][message] = do () ->
+                _transition = transition
+                _transitionFun = transitionFun
+                () ->
+                  nextState = _transitionFun.call @
+                  return nextState  if states[nextState]
+                  _transition.next_state
+
+      states[finalState] =
+        _onEnter: do () ->
+          _state = finalState
+          () ->
+            @resource[_state]()
+
+      {
+        initialState
+        states
+      }
+    config: @_makeConfig()
+
+
     constructor: (@resource) ->
       @transaction = @resource.transaction
       @context = @resource.context
 
-      states =
-        init:
-          '*': 'block_system'
-
-      _.assign states,
-        systemStates,
-        requestStates,
-        acceptStates,
-        retrieveStates,
-        preconditionStates,
-        createStates,
-        processStates,
-        responseStates,
-        alternativeStates
-
-      super {
-        initialState: 'init'
-        states
-      }
+      @config.states.__init =
+        '*': @config.initialState
+      @config.initialState = '__init'
+      super @config
 
       # Keep track of transitions
       @on 'transition', (transition) =>
@@ -89,3 +122,8 @@ define [
     handle: (inputType) ->
       inputType = Boolean inputType
       super inputType
+
+
+    transition: (state) ->
+      console.log state
+      super
