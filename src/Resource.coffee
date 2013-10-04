@@ -17,8 +17,9 @@ define [
   #
   class Resource extends FSMResource
     constructor: (@transaction) ->
-      _.assign @transaction, {
+      _.merge @transaction, {
         request:
+          protocol: 'HTTP'
           version: undefined
           method: undefined
           scheme: undefined
