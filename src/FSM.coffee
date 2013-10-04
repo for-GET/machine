@@ -3,12 +3,12 @@ define [
   'lodash'
   'machina'
   './httpdd.fsm.json'
-  './FSM/transitions'
+  './FSM/transitionFuns'
 ], (
   _
   machina
   httpdd
-  transitions
+  transitionFuns
 ) ->
   "use strict"
 
@@ -26,12 +26,13 @@ define [
       finalState = _.find(httpdd.statements, {__type: 'assignment', name: 'Final'}).value
       blockStates = _.where(httpdd.statements, {__type: 'declaration', value: 'block'})[0].names
       statusCodeStates = _.where(httpdd.statements, {__type: 'declaration', value: 'status_code'})[0].names
+      transitions = _.where httpdd.statements, {__type: 'transition'}
 
-      for transition in _.where httpdd.statements, {__type: 'transition'}
+      for transition in transitions
         for state in transition.states
           states[state] ?= {}
           for message in transition.messages
-            transitionFun = transitions["#{state}:#{message}"]
+            transitionFun = transitionFuns["#{state}:#{message}"]
             message = '*'  if message is 'anything'
 
             if state in blockStates
