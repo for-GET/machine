@@ -36,13 +36,13 @@ define [
             message = '*'  if message is 'anything'
 
             if state in blockStates
-              states[state]._onEnter = do () ->
+              states[state]._onEnter ?= do () ->
                 _transition = transition
                 () ->
                   @transition _transition.next_state
             else if state in statusCodeStates
               statusCode = /^\d{3}/.exec(state)[0]
-              states[state]._onEnter = () ->
+              states[state]._onEnter ?= () ->
                 @handle()
               transitionFun ?= do () ->
                 _statusCode = statusCode
@@ -57,7 +57,7 @@ define [
                   _transition.next_state
             else
               transitionFun ?= () ->
-              states[state]._onEnter = do () ->
+              states[state]._onEnter ?= do () ->
                 _state = state
                 () ->
                   @handle @resource[_state]()
@@ -67,7 +67,7 @@ define [
                 _transitionFun = transitionFun
                 () ->
                   nextState = _transitionFun.call @
-                  return nextState  if states[nextState]
+                  return nextState  if nextState? and states[nextState]
                   _transition.next_state
 
       states[finalState] =
