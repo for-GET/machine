@@ -10,6 +10,8 @@ define [
       @method() is 'TRACE'
     is_method_options: () -> # : in
       @method() is 'OPTIONS'
+    is_method_head_get: () -> # : in
+      @method() in ['HEAD', 'GET']
     is_method_put: () -> # : in
       @method() is 'PUT'
     is_method_delete: () -> # : in

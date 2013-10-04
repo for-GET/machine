@@ -27,10 +27,14 @@ define [
         return false  unless header in implemented_content_headers
       true
     are_expect_extensions_implemented: () -> # : in
+      return true  unless @transaction.request.h.expect?
       implemented_expect_extensions = @implemented_expect_extensions()
       for extension in implemented_expect_extensions
         return false  unless @transaction.request.h.expect.matchesToken extension
       true
+    has_content: () -> # : in
+      return true  if @transaction.request.representation?
+      false
     camelcase_response_headers: () -> # : in
       @transaction.response.headers = camelize @transaction.response.headers
     last: () -> # : in
