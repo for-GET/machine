@@ -31,7 +31,8 @@
     "machina": "~0.3.4",
     "otw": "git://github.com/andreineculau/otw.git",
     "know-your-http-well": "~0.1.2",
-    "camelize-http-headers": "~0.0.1"
+    "camelize-http-headers": "~0.0.1",
+    "httpdd": "git://github.com/for-GET/http-decision-diagram.git"
   },
   "optionalDependencies": {
     "coffee-script": "~1.6.3"

@@ -2,7 +2,7 @@ define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
   'lodash'
   'machina'
-  './httpdd.fsm.json'
+  'httpdd'
   './FSM/transitionFuns'
 ], (
   _
