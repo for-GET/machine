@@ -2,6 +2,8 @@
 
 for-GET Machine is a reference implementation of the state machine of [the HTTP decision diagram v4](https://github.com/for-GET/http-decision-diagram/tree/master/v4).
 
+**This is part of a bigger effort: [for-GET HTTP](https://github.com/for-GET/README).**
+
 
 ## Status
 
