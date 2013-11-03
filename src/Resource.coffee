@@ -180,6 +180,8 @@ define [
       true
     is_uri_too_long: () -> # :bin
       false
+    are_headers_too_large: () -> # :bin
+      false
     is_system_block_ok: () -> # :bin
       true
 
