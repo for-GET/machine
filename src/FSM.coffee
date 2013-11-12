@@ -60,7 +60,14 @@ define [
               states[state]._onEnter ?= do () ->
                 _state = state
                 () ->
-                  @handle @resource[_state]()
+                  fun = @resource[_state]
+                  if fun.length is 1
+                    fun (err, message) =>
+                      throw err  if err?
+                      @handle message
+                  else
+                    message = fun()
+                    @handle message
 
               states[state][message] = do () ->
                 _transition = transition
@@ -107,15 +114,23 @@ define [
         do () =>
           callback = k
           fun = v
-          @resource[callback] = () =>
+          @resource[callback] = (next) =>
+            next ?= () -> undefined
             state = @state
-            result = fun.apply @resource, arguments
-            @transaction.log.callbacks.push {
-              state
-              callback
+            innerNext = (err, result) ->
+              return next err  if err?
+              @transaction.log.callbacks.push {
+                state
+                callback
+                result
+              }
+              next null, result  if fun.length
               result
-            }
-            result
+            try
+              result = fun.call @resource, innerNext
+              next null, result  unless fun.length
+            catch e
+              next e  unless fun.length
 
       @handle()
 
