@@ -48,5 +48,5 @@ define [
         @::[callback] = fun
 
 
-    constructor: (@transaction) ->
+    constructor: ({@transaction}) ->
       undefined
