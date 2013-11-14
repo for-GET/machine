@@ -16,9 +16,13 @@ define [
 
   #
   class FSM extends machinaFsm
-    transaction: undefined
-    context: undefined
     resource: undefined
+    context: undefined
+    transaction: undefined
+    request: undefined
+    response: undefined
+    error: undefined
+    log: undefined
 
     @_makeConfig: () ->
       states = {}
@@ -47,7 +51,7 @@ define [
               transitionFun ?= do () ->
                 _statusCode = statusCode
                 () ->
-                  @transaction.response.status = _statusCode
+                  @response.status_code = _statusCode
               states[state][message] = do () ->
                 _transition = transition
                 _transitionFun = transitionFun
@@ -96,8 +100,8 @@ define [
 
 
     constructor: (@resource) ->
-      @transaction = @resource.transaction
-      @context = @resource.context
+      {@transaction, @context} = @resource
+      {@response, @request, @error, @log} = @transaction
 
       super @config
 
@@ -106,9 +110,9 @@ define [
         transition = {
           from: transition.fromState
           to: transition.toState
+          transaction: @transaction.toJSON()
         }
-        transition.transaction = _.omit @transaction, (prop) -> prop[0] is '_'
-        @transaction.log.transitions.push transition
+        @log.transitions.push transition
 
       # Keep track of callback results
       for k, v of @resource

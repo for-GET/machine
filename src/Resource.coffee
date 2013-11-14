@@ -16,34 +16,32 @@ define [
 
   #
   class Resource extends FSMResource
-    constructor: (@transaction) ->
-      _.merge @transaction, {
+    constructor: ({@transaction}) ->
+      _.defaults @transaction, {
         request:
-          protocol: 'HTTP'
           version: undefined
           method: undefined
-          scheme: undefined
-          host:
-            source: undefined
-            hostname: undefined
-            port: undefined
-          target:
-            source: undefined
-            path: undefined
-            query: undefined
+          target: undefined
           headers: {}
           representation: undefined
-          h: {}
-        response:
-          status: undefined
-          headers: {}
-          representation: undefined
-          h: {}
-          chosen:
-            contentType: undefined
-            language: undefined
-            charset: undefined
+          content:
             encoding: undefined
+            length: undefined
+            range: undefined
+            type: undefined
+            charset: undefined
+            language: undefined
+        response:
+          status_code: undefined
+          headers: {}
+          representation: undefined
+          content:
+            encoding: undefined
+            length: undefined
+            range: undefined
+            type: undefined
+            charset: undefined
+            language: undefined
         error:
           describedBy: undefined
           supportId: undefined
@@ -52,15 +50,15 @@ define [
         log:
           transitions: []
           callbacks: []
-      }
+      }, _.merge
       super
 
 
     # Methods
     method: () -> # :var
-      overridenMethod = @transaction.request.headers['x-http-method-override']
-      return overridenMethod.toUpperCase()  if overridenMethod
-      @transaction.request.method
+      overridenMethod = @request.headers['x-http-method-override']?.value
+      return overridenMethod.toUpperCase()  if overridenMethod?
+      @request.method
     safe_methods: () -> # :var
       [
         'HEAD'
@@ -107,7 +105,7 @@ define [
     post_content_types_accepted: () -> # :var
       {
         'application/x-www-form-urlencoded': () ->
-          @context.entity = QueryString.parse @transaction.representation
+          @context.entity = QueryString.parse @request.representation
           true
       }
     patch_content_types_accepted: () -> # :var

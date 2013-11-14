@@ -39,8 +39,12 @@ define [
 
   #
   class FSMResource
-    transaction: undefined
     context: undefined
+    transaction: undefined
+    request: undefined
+    response: undefined
+    error: undefined
+    log: undefined
 
 
     for callbackBlock in callbackBlocks
@@ -49,4 +53,4 @@ define [
 
 
     constructor: ({@transaction}) ->
-      undefined
+      {@request, @response, @error, @log} = @transaction

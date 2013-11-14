@@ -31,8 +31,8 @@ define [
     www_authenticate_header: () -> # : in
       # FIXME
     process_trace: () -> # : in
-      response = @transaction.response
-      headers = @transaction.request.headers
+      response = @response
+      headers = @request.headers
       sensitiveHeaders= @trace_sensitive_headers()
       headersRepresentation = []
       for header, value of headers
@@ -48,17 +48,16 @@ define [
     accept_put_header: () -> # : in
       accept_header Object.keys @put_content_types_accepted()
     process_options: () -> # : in
-      @transaction.response.h.allow = @allow_header()
-      @transaction.response.h['accept-patch'] = @accept_patch_header()
-      @transaction.response.h['accept-post'] = @accept_post_header()
-      @transaction.response.h['accept-put'] = @accept_put_header()
+      @response.h.allow = @allow_header()
+      @response.h['accept-patch'] = @accept_patch_header()
+      @response.h['accept-post'] = @accept_post_header()
+      @response.h['accept-put'] = @accept_put_header()
     has_expect: () -> # : in
-      expect = @transaction.request.h.expect
-      expect instanceof ExpectHeader
+      @request.headers.expect?.toString()?.length
     expects_continue: () -> # : in
-      @has_expect() and @transaction.request.h.expect.matchesToken '100-continue'
+      @has_expect() and @request.headers.expect.matchesToken '100-continue'
     content_exists: () -> # : in
-      @transaction.request.headers['content-length'] or @transaction.representation?.length
+      @request.headers['content-length'] or @transaction.representation?.length
     content_types_accepted: () -> # : in
       method = @method().toLowerCase()
       fun = "#{method}_content_types_accepted"
@@ -66,5 +65,5 @@ define [
       @[fun]()
     is_content_type_accepted: () -> # : in
       accepted = new AcceptHeader Object.keys(@content_types_accepted()).join ','
-      accepted.matchesToken @transaction.request.headers['content-type']
+      accepted.matchesToken @request.headers['content-type']
   }

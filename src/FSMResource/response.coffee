@@ -9,8 +9,7 @@ define [
     to_content: () -> # : in
       # FIXME
 
-      hasContent = @transaction.response.chosen.contentType[1]?()
-      return false  unless hasContent
+      return false  unless @response.representation?
 
-      @transaction.response.headers['content-encoding'] = @transaction.response.chosen.encoding.toString()
+      @response.headers['content-encoding'] = @response.content.encoding.toString()
   }

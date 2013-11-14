@@ -15,47 +15,47 @@ define [
   # Accept
   {
     has_accept: () -> # : in
-      accept = @transaction.request.h.accept
+      accept = @request.headers.accept
       return true  if accept? and accept.toString() isnt '*/*'
-      @transaction.response.chosen.contentType = @default_content_type_provided()
+      @response.content.type = @default_content_type_provided()
       false
     accept_matches: () -> # : in
       provided = @content_types_provided()
-      tokenHandler = @transaction.request.h.accept.chooseTokenHandler(provided) or {}
+      tokenHandler = @request.headers.accept.chooseTokenHandler(provided) or {}
       return false  unless tokenHandler?.token
-      @transaction.response.chosen.contentType = tokenHandler
+      @response.content.type = tokenHandler
       true
     has_accept_language: () -> # : in
-      acceptLanguage = @transaction.request.h.acceptLanguage
+      acceptLanguage = @request.headers['accept-language']
       return true  if acceptLanguage? and acceptLanguage.toString() isnt '*'
-      @transaction.response.chosen.language = @default_language_provided()
+      @response.content.language = @default_language_provided()
       false
     accept_language_matches: () -> # : in
       provided = @languages_provided()
-      tokenHandler = @transaction.request.h.acceptLanguage.chooseTokenHandler(provided) or {}
+      tokenHandler = @request.headers['accept-language'].chooseTokenHandler(provided) or {}
       return false  unless tokenHandler?.token
-      @transaction.response.chosen.language = tokenHandler
+      @response.content.language = tokenHandler
       true
     has_accept_charset: () -> # : in
-      acceptCharset = @transaction.request.h.acceptCharset
+      acceptCharset = @request.headers['accept-charset']
       return true  if acceptCharset? and acceptCharset.toString() isnt '*'
-      @transaction.response.chosen.charset = @default_charset_provided()
+      @response.content.charset = @default_charset_provided()
       false
     accept_charset_matches: () -> # : in
       provided = @charsets_provided()
-      tokenHandler = @transaction.request.h.acceptCharset.chooseTokenHandler provided
+      tokenHandler = @request.headers['accept-charset'].chooseTokenHandler provided
       return false  unless tokenHandler?.token
-      @transaction.response.chosen.charset = tokenHandler
+      @response.content.charset = tokenHandler
       true
     has_accept_encoding: () -> # : in
-      acceptEncoding = @transaction.request.h.acceptEncoding
+      acceptEncoding = @request.headers['accept-encoding']
       return true  if acceptEncoding? and acceptEncoding.toString() isnt '*'
-      @transaction.response.chosen.encoding = @default_encoding_provided()
+      @response.content.encoding = @default_encoding_provided()
       false
     accept_encoding_matches: () -> # : in
       provided = @encodings_provided()
-      tokenHandler = @transaction.request.h.acceptEncoding.chooseTokenHandler provided
+      tokenHandler = @request.headers['accept-encoding'].chooseTokenHandler provided
       return false  unless tokenHandler?.token
-      @transaction.response.chosen.encoding = tokenHandler
+      @response.content.encoding = tokenHandler
       true
   }

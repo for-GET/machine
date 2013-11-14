@@ -1,20 +1,24 @@
 define = require('amdefine')(module)  if typeof define isnt 'function'
 define [
+  'know-your-http-well'
 ], (
+  httpWell
 ) ->
   "use strict"
+
+  statusWell = httpWell.statusPhrasesToCodes
 
   {
     # Status code
     '100_CONTINUE:anything': () ->
-      @transaction._res.writeContinue()
+      @response.writeStatus statusWell.CONTINUE
 
     # Request
     'is_method_implemented:false': () ->
-      @transaction.response.h.allow or= @resource.allow_header()
+      @response.headers.allow or= @resource.allow_header()
 
     'is_authorized:false': () ->
-      @transaction.response.wwwAuthenticate or= @resource.www_authenticate_header()
+      @response.headers['www-authenticate'] or= @resource.www_authenticate_header()
 
     'is_method_trace:true': () ->
       @resource.process_trace()
@@ -23,8 +27,8 @@ define [
       @resource.process_options()
 
     'is_content_type_accepted:false': () ->
-      method = @transaction.method.toLowerCase()
-      @transaction.response.h["accept-#{method}"] or= @resource["accept_#{method}_header"]()
+      method = @request.method.toLowerCase()
+      @response.headers["accept-#{method}"] or= @resource["accept_#{method}_header"]()
 
     # Response
     'create_see_other:true': () ->

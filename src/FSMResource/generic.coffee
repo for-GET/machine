@@ -23,5 +23,5 @@ define [
     is_method_process: () -> # : in
       @method() in @process_methods()
     is_location_set: () -> # : in
-      @transaction.response.headers.location isnt undefined
+      @response.headers.location isnt undefined
   }
