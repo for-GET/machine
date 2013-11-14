@@ -121,19 +121,19 @@ define [
           _callback = callback
           _fun = fun
           makeInnerNext = (state, callback, next) =>
-           (err, result) =>
-            if err?
-              if next?
-                return next err
-              else
-                throw err
-            @log.callbacks.push {
-              state
-              callback
+            (err, result) =>
+              if err?
+                if next?
+                  return next err
+                else
+                  throw err
+              @log.callbacks.push {
+                state
+                callback
+                result
+              }
+              return next null, result  if next?
               result
-            }
-            return next null, result  if next?
-            result
 
           if _fun.length
             @resource[_callback] = (next) =>
