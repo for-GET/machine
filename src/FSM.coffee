@@ -115,28 +115,43 @@ define [
         @log.transitions.push transition
 
       # Keep track of callback results
-      for k, v of @resource
-        continue  unless _.isFunction v
+      for callback, fun of @resource
+        continue  unless _.isFunction(fun) and callback isnt 'constructor'
         do () =>
-          callback = k
-          fun = v
-          @resource[callback] = (next) =>
-            next ?= () -> undefined
-            state = @state
-            innerNext = (err, result) ->
-              return next err  if err?
-              @transaction.log.callbacks.push {
-                state
-                callback
-                result
-              }
-              next null, result  if fun.length
+          _callback = callback
+          _fun = fun
+          makeInnerNext = (state, callback, next) =>
+           (err, result) =>
+            if err?
+              if next?
+                return next err
+              else
+                throw err
+            @log.callbacks.push {
+              state
+              callback
               result
-            try
-              result = fun.call @resource, innerNext
-              next null, result  unless fun.length
-            catch e
-              next e  unless fun.length
+            }
+            return next null, result  if next?
+            result
+
+          if _fun.length
+            @resource[_callback] = (next) =>
+              state = @state
+              innerNext = makeInnerNext state, _callback, next
+              try
+                _fun.call @resource, innerNext
+              catch e
+                innerNext e
+          else
+            @resource[_callback] = () =>
+              state = @state
+              innerNext = makeInnerNext state, _callback
+              try
+                result = _fun.call @resource
+                return innerNext null, result
+              catch e
+                return innerNext e
 
       @handle()
 
