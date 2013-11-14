@@ -77,6 +77,9 @@ define [
                   return nextState  if nextState? and states[nextState]
                   _transition.next_state
 
+
+      states['__init'] =
+        '*': initialState
       states[finalState] =
         _onEnter: do () ->
           _state = finalState
@@ -84,9 +87,11 @@ define [
             @resource[_state]()
 
       {
-        initialState
+        initialState: '__init'
         states
       }
+
+
     config: @_makeConfig()
 
 
@@ -94,9 +99,6 @@ define [
       @transaction = @resource.transaction
       @context = @resource.context
 
-      @config.states.__init =
-        '*': @config.initialState
-      @config.initialState = '__init'
       super @config
 
       # Keep track of transitions
